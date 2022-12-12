@@ -22,7 +22,7 @@ Route::get('/', function () {
 });
 
 Route::any('/login', [AuthController::class, 'login'])->name('login');
-Route::any('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::any('/logout', [AuthController::class, 'logout'])->name('logout')->middleware(['withAuth']);
 
 Route::prefix('products')
     ->name('product.')
@@ -34,8 +34,8 @@ Route::prefix('products')
             Route::put('/{id}', 'update')->name('update');
             Route::get('/{id}/delete', 'destroy')->name('destroy');
         });
+        Route::get('/', 'index')->name('list');
         Route::middleware(['noAuth'])->group(function () {
-            Route::get('/', 'index')->name('list');
             Route::get('/{id}', 'detail')->name('detail');
         });
     });
