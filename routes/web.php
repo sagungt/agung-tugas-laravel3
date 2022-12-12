@@ -35,9 +35,7 @@ Route::prefix('products')
             Route::get('/{id}/delete', 'destroy')->name('destroy');
         });
         Route::get('/', 'index')->name('list');
-        Route::middleware(['noAuth'])->group(function () {
-            Route::get('/{id}', 'detail')->name('detail');
-        });
+        Route::get('/{id}', 'detail')->name('detail');
     });
 
 Route::prefix('posts')
@@ -51,8 +49,6 @@ Route::prefix('posts')
             Route::get('/{slug}/edit', 'edit')->name('edit');
             Route::get('/{slug}/delete', 'destroy')->name('destroy');
         });
-        Route::middleware(['noAuth'])->group(function () {
-            Route::get('/', 'index')->name('list');
-            Route::get('/{slug}', 'detail')->name('detail');
-        });
+        Route::get('/', 'index')->name('list');
+        Route::get('/{slug}', 'detail')->name('detail');
     });
