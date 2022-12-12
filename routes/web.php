@@ -28,15 +28,15 @@ Route::prefix('products')
     ->name('product.')
     ->controller(ProductController::class)
     ->group(function () {
+        Route::middleware(['withAuth'])->group(function () {
+            Route::get('/add', 'store')->name('store');
+            Route::post('/add', 'create')->name('create');
+            Route::put('/{id}', 'update')->name('update');
+            Route::get('/{id}/delete', 'destroy')->name('destroy');
+        });
         Route::middleware(['noAuth'])->group(function () {
             Route::get('/', 'index')->name('list');
             Route::get('/{id}', 'detail')->name('detail');
-        });
-        Route::middleware(['withAuth'])->group(function () {
-            Route::get('/add', 'store')->name('store');
-            Route::put('/{id}', 'update')->name('update');
-            Route::post('/add', 'create')->name('create');
-            Route::get('/{id}/delete', 'destroy')->name('destroy');
         });
     });
 
@@ -44,15 +44,15 @@ Route::prefix('posts')
     ->name('post.')
     ->controller(PostController::class)
     ->group(function () {
-        Route::middleware(['noAuth'])->group(function () {
-            Route::get('/', 'index')->name('list');
-            Route::get('/{slug}', 'detail')->name('detail');
-        });
         Route::middleware(['withAuth'])->group(function () {
             Route::get('/add', 'store')->name('store');
             Route::post('/add', 'create')->name('create');
-            Route::get('/{slug}/edit', 'edit')->name('edit');
             Route::put('/{slug}', 'update')->name('update');
+            Route::get('/{slug}/edit', 'edit')->name('edit');
             Route::get('/{slug}/delete', 'destroy')->name('destroy');
+        });
+        Route::middleware(['noAuth'])->group(function () {
+            Route::get('/', 'index')->name('list');
+            Route::get('/{slug}', 'detail')->name('detail');
         });
     });
